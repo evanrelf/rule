@@ -30,4 +30,5 @@ library
     , Rule.Env.Syntax
     , Rule.HList
     , Rule.Rule
+    , Rule.Rule.Syntax
     , Rule.Test
