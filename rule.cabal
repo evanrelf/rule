@@ -27,7 +27,7 @@ library
   exposed-modules:
     , Rule
     , Rule.Env
-    , Rule.Env.Do
+    , Rule.Env.Syntax
     , Rule.HList
     , Rule.Rule
     , Rule.Test
