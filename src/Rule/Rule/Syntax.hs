@@ -8,7 +8,6 @@
 module Rule.Rule.Syntax where
 
 import Prelude hiding ((>>=), (>>), pure)
-import Prelude qualified
 import Rule.Env (Env' (..), Field (..), FieldName)
 import Rule.HList (Append, HList (..), Subset (..))
 import Rule.Rule
@@ -28,4 +27,4 @@ get _ = Rule \(Env (Field _ v `HCons` _)) -> v
 (>>) _ ruleR = Rule \(Env env) -> runRule (Env (subset env)) ruleR
 
 pure :: a -> Rule '[] a
-pure = Prelude.pure
+pure x = Rule \_ -> x
