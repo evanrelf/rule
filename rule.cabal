@@ -26,5 +26,6 @@ library
   build-depends:
   exposed-modules:
     , Rule
+    , Rule.Core
     , Rule.Do
     , Rule.Test
