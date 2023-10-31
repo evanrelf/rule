@@ -7,6 +7,7 @@
 module Rule.Test where
 
 import Rule
+import Rule.Env.Syntax ((=.))
 import Rule.Env.Syntax qualified as E
 
 env1 =
