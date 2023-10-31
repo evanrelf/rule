@@ -1,8 +1,4 @@
-module Rule.Rule
-  ( Rule
-  , runRule
-  )
-where
+module Rule.Rule where
 
 import Rule.Env (Env)
 

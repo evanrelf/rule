@@ -28,5 +28,6 @@ library
     , Rule
     , Rule.Env
     , Rule.Env.Do
+    , Rule.HList
     , Rule.Rule
     , Rule.Test
