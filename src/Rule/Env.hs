@@ -28,15 +28,15 @@ data FieldName :: Symbol -> Type where
 instance (l ~ s, KnownSymbol s) => IsLabel l (FieldName s) where
   fromLabel = FieldName (Proxy @s)
 
-data k ::: v = FieldName k := v
+data Field k v = Field (FieldName k) v
 
-infix 6 :::, :=
+type (:::) = Field
 
 newtype Env xs = Env (HList xs)
 
-instance HasField k (Env '[k ::: v]) v where
-  getField :: Env '[k ::: v] -> v
-  getField (Env (_ := v `HCons` HNil)) = v
+instance HasField k (Env '[Field k v]) v where
+  getField :: Env '[Field k v] -> v
+  getField (Env (Field _ v `HCons` HNil)) = v
 
 instance HasField k (Env xs) v => HasField k (Env (x : xs)) v where
   getField (Env (_ `HCons` xs)) = getField @k (Env xs)
@@ -44,5 +44,5 @@ instance HasField k (Env xs) v => HasField k (Env (x : xs)) v where
 empty :: Env '[]
 empty = Env HNil
 
-insert :: FieldName k -> v -> Env xs -> Env (k ::: v : xs)
-insert k v (Env xs) = Env (k := v `HCons` xs)
+insert :: FieldName k -> v -> Env xs -> Env (Field k v : xs)
+insert k v (Env xs) = Env (Field k v `HCons` xs)
