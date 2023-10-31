@@ -34,4 +34,18 @@ env3 = E.do
 rule1 = R.do
   name :: String <- get #name
   age :: Int <- get #age
-  R.pure (length name == age)
+  R.pure $ length name == age
+
+demo = do
+  let env = E.do
+        #x 21
+        #y 2
+
+  let rule = R.do
+        x <- get #x
+        y <- get #y
+        R.pure $ x * y
+
+  let result = runRule env rule :: Int
+
+  print result

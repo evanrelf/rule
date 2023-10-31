@@ -15,15 +15,6 @@ data HList :: [Type] -> Type where
 
 infixr 5 `HCons`
 
-type (<>) :: [k] -> [k] -> [k]
-type family (<>) xs ys where
-  (<>) '[] '[] = '[]
-  (<>) (x : xs) '[] = x : xs
-  (<>) '[] (y : ys) = y : ys
-  (<>) (x : xs) (y : ys) = (x : (xs <> (y : ys)))
-
-infixr 6 <>
-
 type Append :: [Type] -> [Type] -> [Type] -> Constraint
 class Append xs ys zs | xs ys -> zs where
   append :: HList xs -> HList ys -> HList zs
@@ -48,7 +39,7 @@ type Lookup :: Type -> [Type] -> Constraint
 class Lookup x xs where
   lookup :: HList xs -> x
 
-instance Lookup x (x : xs) where
+instance {-# OVERLAPPING #-} Lookup x (x : xs) where
   lookup :: HList (x : xs) -> x
   lookup (x `HCons` _) = x
 
@@ -57,13 +48,13 @@ instance Lookup x xs => Lookup x (y : xs) where
   lookup (_ `HCons` xs) = lookup xs
 
 type Subset :: [Type] -> [Type] -> Constraint
-class Subset sup sub where
+class Subset sub sup where
   subset :: HList sup -> HList sub
 
-instance Subset sup '[] where
+instance Subset '[] sup where
   subset :: HList sup -> HList '[]
   subset _ = HNil
 
-instance (Lookup x sup, Subset sup sub) => Subset sup (x : sub) where
+instance (Lookup x sup, Subset sub sup) => Subset (x : sub) sup where
   subset :: HList sup -> HList (x : sub)
   subset sup = lookup sup `HCons` subset sup
