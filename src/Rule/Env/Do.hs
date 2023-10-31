@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
-module Rule.Do
+module Rule.Env.Do
   ( fmap
   , (<*>)
   , (>>=)

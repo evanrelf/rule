@@ -1,10 +1,10 @@
 module Rule
   ( module Rule.Env
+  , module Rule.Env.Do
   , module Rule.Rule
-  , module Rule.Do
   )
 where
 
-import Rule.Do
 import Rule.Env
+import Rule.Env.Do
 import Rule.Rule
