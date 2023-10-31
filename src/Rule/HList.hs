@@ -7,6 +7,7 @@
 module Rule.HList where
 
 import Data.Kind (Constraint, Type)
+import Prelude hiding (lookup)
 
 data HList :: [Type] -> Type where
   HNil :: HList '[]
@@ -42,3 +43,27 @@ instance Append '[] (y : ys) (y : ys) where
 instance Append xs (y : ys) zs => Append (x : xs) (y : ys) (x : zs) where
   append :: HList (x : xs) -> HList (y : ys) -> HList (x : zs)
   append (x `HCons` xs) (y `HCons` ys) = x `HCons` append xs (y `HCons` ys)
+
+type Lookup :: Type -> [Type] -> Constraint
+class Lookup x xs where
+  lookup :: HList xs -> x
+
+instance Lookup x (x : xs) where
+  lookup :: HList (x : xs) -> x
+  lookup (x `HCons` _) = x
+
+instance Lookup x xs => Lookup x (y : xs) where
+  lookup :: HList (y : xs) -> x
+  lookup (_ `HCons` xs) = lookup xs
+
+type Subset :: [Type] -> [Type] -> Constraint
+class Subset sup sub where
+  subset :: HList sup -> HList sub
+
+instance Subset sup '[] where
+  subset :: HList sup -> HList '[]
+  subset _ = HNil
+
+instance (Lookup x sup, Subset sup sub) => Subset sup (x : sub) where
+  subset :: HList sup -> HList (x : sub)
+  subset sup = lookup sup `HCons` subset sup
