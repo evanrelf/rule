@@ -5,8 +5,8 @@ module Rule.Test where
 
 import Rule
 
-env :: HList ["name" ::: String, "age" ::: Int]
+env :: Env ["name" ::: String, "age" ::: Int]
 env =
-  #name := "Evan" `HCons`
-  #age := 26 `HCons`
-  HNil
+    insert #name "Evan"
+  $ insert #age 26
+  $ empty
