@@ -1,0 +1,1 @@
+module Rule.Test () where

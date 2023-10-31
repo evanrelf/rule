@@ -1,0 +1,30 @@
+cabal-version: 3.6
+
+name: rule
+version: 0.0.0.0
+
+common common
+  build-depends: base
+  default-language: GHC2021
+  ghc-options:
+    -Wall
+    -Wcompat
+    -Werror=incomplete-patterns
+    -Werror=incomplete-record-updates
+    -Werror=incomplete-uni-patterns
+    -Werror=missing-fields
+    -Werror=missing-methods
+    -Werror=partial-fields
+    -Widentities
+    -Wmissing-home-modules
+    -Wno-unticked-promoted-constructors
+    -Wredundant-constraints
+
+library
+  import: common
+  hs-source-dirs: src
+  build-depends:
+  exposed-modules:
+    , Rule
+    , Rule.Do
+    , Rule.Test
